@@ -1,7 +1,7 @@
 from tkinter import Tk, Label, Button, messagebox
 from PIL import Image, ImageTk
 from gui.toplevel import MonthlyBudgetWindow, YearlyBudgetWindow, FinancialSummaryWindow, \
-    AddCategoryWindow
+    AddCategoryWindow, RemoveCategoryWindow
 from misc.tools import ver, author, console_output
 
 
@@ -57,8 +57,10 @@ class HomeWindow(Tk):
         show_info_button.place(x=325, y=100)
         setup_button = Button(self, text='Setup Databases', command=self.setup, width=10)
         setup_button.place(x=450, y=100)
-        add_categories_button = Button(self, text='Add Categories', command=self.add_categories, width=10)
+        add_categories_button = Button(self, text='Add Category', command=self.add_category, width=10)
         add_categories_button.place(x=325, y=125)
+        remove_categories_button = Button(self, text='Remove Category', command=self.remove_category, width=10)
+        remove_categories_button.place(x=450, y=125)
 
         # Pictures
         temp_image = Image.open(r"../assets/settings.png")
@@ -114,12 +116,21 @@ class HomeWindow(Tk):
         messagebox.showinfo('Done', 'Recalculated datapoints')
 
     @staticmethod
-    def add_categories():
+    def add_category():
         """
-        Launch addd categories windows.
+        Launch add categories window.
         :return:
         """
         window = AddCategoryWindow()
+        window.grab_set()
+
+    @staticmethod
+    def remove_category():
+        """
+        Launch remove categories window
+        :return:
+        """
+        window = RemoveCategoryWindow()
         window.grab_set()
 
     @staticmethod

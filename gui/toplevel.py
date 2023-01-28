@@ -13,6 +13,7 @@ class FinancialSummaryWindow(Toplevel):
     """
     Launch window to summarise finances
     """
+
     def __init__(self):
         """
         Initialise financial summary window.
@@ -26,6 +27,7 @@ class AddCategoryWindow(Toplevel):
     """
     Add categories to the categories text file
     """
+
     def __init__(self):
         """
         Initialise add category window
@@ -44,8 +46,8 @@ class AddCategoryWindow(Toplevel):
         temp_image = Image.open(r"../assets/categories.png")
         temp_image = temp_image.resize((50, 50))
         self.categories_image = ImageTk.PhotoImage(temp_image)
-        monthly_image_label = Label(self, image=self.categories_image)
-        monthly_image_label.place(x=10, y=10)
+        category_image_label = Label(self, image=self.categories_image)
+        category_image_label.place(x=10, y=10)
 
         # Labels
         add_category_label = Label(self, text='Category Name', font=('Arial', 15))
@@ -70,17 +72,55 @@ class AddCategoryWindow(Toplevel):
         :return:
         """
         categories = Categories()
-        if self.add_category_name.get() is not None and not(categories.check_duplicate(self.add_category_name.get())):
+        if self.add_category_name.get() is not None and not (categories.check_duplicate(self.add_category_name.get())):
             categories.add(self.add_category_name.get())
             console_output('Category added!')
         else:
             console_output('Invalid category. Try again')
 
 
+class RemoveCategoryWindow(Toplevel):
+    def __init__(self):
+        super().__init__()
+        self.title('Remove Category')
+        self.geometry('350x150')
+        self.resizable(height=False, width=False)
+
+        title = Label(self, text='Remove Category', font=('Arial', 20))
+        title.place(x=90, y=10)
+        temp_image = Image.open(r'../assets/categories.png')
+        temp_image = temp_image.resize((50, 50))
+        self.categories_image = ImageTk.PhotoImage(temp_image)
+        category_image_label = Label(self, image=self.categories_image)
+        category_image_label.place(x=10, y=10)
+
+        categories_label = Label(self, text='Select a category to remove', font=('Arial', 15))
+        categories_label.place(x=90, y=50)
+
+        self.categories_option = StringVar()
+        self.categories_obj = Categories()
+        categories_options = self.categories_obj.get().split('\n')
+        categories_option_menu = OptionMenu(self, self.categories_option, *categories_options)
+        categories_option_menu.place(x=150, y=75)
+
+        ok_button = Button(self, text='Ok', command=self.delete_category, width=10)
+        ok_button.place(x=115, y=100)
+        exit_button = Button(self, text='Exit', command=self.destroy, width=10)
+        exit_button.place(x=115, y=125)
+
+    def delete_category(self):
+        """
+        Delete category from categories.txt file
+        :return:
+        """
+        if self.categories_option.get() is not None or self.categories_option.get() != '':
+            self.categories_obj.delete(self.categories_option.get())
+            console_output('Category deleted')
+        else:
+            console_output('No category selected')
+
+
 class MonthlyBudgetWindow(Toplevel):
-    """
-    Monthly budget main window
-    """
     def __init__(self):
         """
         Initialise monthly budget window
@@ -179,6 +219,7 @@ class AddRecordWindow(Toplevel):
     """
     Add record window
     """
+
     def __init__(self):
         """
         Initialise add record window.
@@ -292,6 +333,7 @@ class UpdateRecordWindow(Toplevel):
     """
     Update record window.
     """
+
     def __init__(self):
         """
         Initialise record window.
@@ -305,6 +347,7 @@ class RemoveRecordWindow(Toplevel):
     """
     Remove record window.
     """
+
     def __init__(self):
         """
         Initialise view record window.
@@ -319,6 +362,7 @@ class ViewMonthlySpendWindow(Toplevel):
     """
     View the months spending window.
     """
+
     def __init__(self):
         """
         Initialise months spending window.
@@ -386,6 +430,7 @@ class ViewCategorySpendWindow(Toplevel):
     """
     View spending for individual categories
     """
+
     def __init__(self):
         super().__init__()
         self.title('View Category Spend')
@@ -395,6 +440,7 @@ class YearlyBudgetWindow(Toplevel):
     """
     View yearly finance information
     """
+
     def __init__(self):
         """
         Initialise yearly finance window.
