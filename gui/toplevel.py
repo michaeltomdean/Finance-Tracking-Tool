@@ -13,7 +13,6 @@ class FinancialSummaryWindow(Toplevel):
     """
     Launch window to summarise finances
     """
-
     def __init__(self):
         """
         Initialise financial summary window.
@@ -27,7 +26,6 @@ class AddCategoryWindow(Toplevel):
     """
     Add categories to the categories text file
     """
-
     def __init__(self):
         """
         Initialise add category window
@@ -83,7 +81,6 @@ class MonthlyBudgetWindow(Toplevel):
     """
     Monthly budget main window
     """
-
     def __init__(self):
         """
         Initialise monthly budget window
@@ -398,7 +395,6 @@ class YearlyBudgetWindow(Toplevel):
     """
     View yearly finance information
     """
-
     def __init__(self):
         """
         Initialise yearly finance window.
