@@ -71,3 +71,16 @@ def is_float(number: str):
     else:
         return True
 
+
+def convert_us_date_to_uk(date: str):
+    """
+    :param date: US date as string
+    :return: UK data format dd-mm-yyyy
+    """
+    year = date[:4]
+    month = date[5:7]
+    day = date[8:]
+    return f"{day}-{month}-{year}"
+
+
+

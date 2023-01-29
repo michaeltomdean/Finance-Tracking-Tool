@@ -6,7 +6,7 @@ from tkcalendar import Calendar
 from data.sql import FinanceSQL
 from data.txt import Categories
 
-from misc.tools import console_output, convert_month_id_to_str, get_year, get_month_id, is_float
+from misc.tools import console_output, convert_month_id_to_str, get_year, get_month_id, is_float, convert_us_date_to_uk
 
 
 class FinancialSummaryWindow(Toplevel):
@@ -372,8 +372,8 @@ class ViewMonthlySpendWindow(Toplevel):
         self.title('View Monthly Spend')
         self.geometry('500x500')
         self.resizable(height=False, width=False)
-        finance_sql = FinanceSQL()
-        finance_sql.connect()
+        database = FinanceSQL()
+        database.connect()
 
         # Title
         title_label = Label(self, text='View Monthly Spend', font=('Arial', 20))
@@ -387,37 +387,42 @@ class ViewMonthlySpendWindow(Toplevel):
         yearly_image_label.place(x=10, y=10)
 
         # Labels
-        current_monthly_spend = f"£{finance_sql.get_monthly_spend_amount()}"
+        current_monthly_spend = database.get_monthly_spending_amount()
+        if current_monthly_spend is None:
+            current_monthly_spend = 0
+        current_monthly_spend = f"£{current_monthly_spend}"
         current_monthly_spend_label = Label(self, text='Current Monthly Spend:', font=('Arial', 15))
         current_monthly_spend_label.place(x=25, y=75)
         current_monthly_spend_total_label = Label(self, text=current_monthly_spend, font=('Arial', 15))
         current_monthly_spend_total_label.place(x=200, y=75)
 
-        top_monthly_category = str(finance_sql.get_top_monthly_category())
+        # Get top monthly category and top category spend data
+        top_monthly_category, top_monthly_category_spend = database.get_top_monthly_spending_category()
+
         top_monthly_category_label = Label(self, text='Current Top Category:', font=('Arial', 15))
         top_monthly_category_label.place(x=25, y=100)
         top_monthly_category_variable_label = Label(self, text=top_monthly_category, font=('Arial', 15))
         top_monthly_category_variable_label.place(x=200, y=100)
 
-        top_monthly_category_spend = f"£{finance_sql.get_top_monthly_category_spend()}"
         top_monthly_category_spend_label = Label(self, text='Top Category Spend:', font=('Arial', 15))
         top_monthly_category_spend_label.place(x=25, y=125)
         top_monthly_category_spend_variable_label = Label(self, text=top_monthly_category_spend, font=('Arial', 15))
         top_monthly_category_spend_variable_label.place(x=200, y=125)
 
-        last_purchase = finance_sql.get_last_monthly_purchase()
+        (last_monthly_purchase, last_monthly_purchase_amount,
+         last_monthly_purchase_date) = database.get_last_monthly_purchase()
+        last_monthly_purchase_date = convert_us_date_to_uk(last_monthly_purchase_date)
+
         last_monthly_purchase_label = Label(self, text='Last Purchase:', font=('Arial', 15))
         last_monthly_purchase_label.place(x=25, y=175)
-        last_monthly_purchase_variable_label = Label(self, text=last_purchase, font=('Arial', 15))
+        last_monthly_purchase_variable_label = Label(self, text=last_monthly_purchase, font=('Arial', 15))
         last_monthly_purchase_variable_label.place(x=200, y=175)
 
-        last_monthly_purchase_amount = f"£{finance_sql.get_last_monthly_purchase_amount()}"
         last_monthly_purchase_amount_label = Label(self, text='Last Purchase Amount:', font=('Arial', 15))
         last_monthly_purchase_amount_label.place(x=25, y=200)
         last_monthly_purchase_amount_variable_label = Label(self, text=last_monthly_purchase_amount, font=('Arial', 15))
         last_monthly_purchase_amount_variable_label.place(x=200, y=200)
 
-        last_monthly_purchase_date = finance_sql.get_last_monthly_purchase_date()
         last_monthly_purchase_date_label = Label(self, text='Last Purchase Date:', font=('Arial', 15))
         last_monthly_purchase_date_label.place(x=25, y=225)
         last_monthly_purchase_date_variable_label = Label(self, text=last_monthly_purchase_date, font=('Arial', 15))
