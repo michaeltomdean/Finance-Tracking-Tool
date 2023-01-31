@@ -356,8 +356,16 @@ class RemoveRecordWindow(Toplevel):
         """
         super().__init__()
         self.title('Remove Record')
-        self.geometry('1000x1000')
+        self.geometry('1000x350')
         self.resizable(height=False, width=False)
+
+        # Title
+        title = Label(self, text='Remove Record', font=('Arial', 20))
+        title.pack()
+
+        # Database
+        self.database = FinanceSQL()
+        self.database.connect()
 
         # Tkinter tree
         tree = Treeview(self, columns='ID, name, category, date, amount, type', show='headings')
@@ -371,7 +379,21 @@ class RemoveRecordWindow(Toplevel):
         for record in data:
             tree.insert("", "end", values=record)
 
+        input_record_id_label = Label(self, text='Input Record ID', font=('Arial', 15))
+        input_record_id_label.pack()
 
+        self.input_record_id = StringVar()
+        input_record_id_entry = Entry(self, textvariable=self.input_record_id)
+        input_record_id_entry.pack()
+
+        ok_button = Button(self, command=self.ok)
+        exit_button = Button(self, command=self.destroy)
+
+    def ok(self):
+        if self.input_record_id.get().isdigit() and self.database.check_record_id(self.input_record_id.get()):
+            self.database.delete_record(self.input_record_id.get())
+        else:
+            print("Invalid record ID. Try again")
 
 
 class ViewMonthlySpendWindow(Toplevel):

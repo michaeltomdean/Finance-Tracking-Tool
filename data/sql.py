@@ -141,5 +141,37 @@ class FinanceSQL:
 
         return max_key, max_value[0]
 
+    def check_record_id(self, record_id):
+        """
+        Checks if a record ID is in the database. If so returns True, else False
+        :param: record_id: Record ID you want to check if exists
+        :return: True/False
+        """
+        self.cursor.execute("""
+        SELECT *
+        FROM spending
+        WHERE transaction_id = ?
+        """,
+                            (record_id,))
+        data = self.cursor.fetchall()
+        if not data:
+            return False
+        else:
+            return True
+
+    def delete_record(self, record_id):
+        """
+        Delete record from database using transaction_id
+        :param record_id: ID of the transaction
+        :return:
+        """
+        self.cursor.execute("""
+        DELETE
+        FROM spending
+        WHERE transaction_id = ?
+        """,
+                            (record_id,))
+        self.connection.commit()
+
     def get_yearly_spending_amount():
         return 10
