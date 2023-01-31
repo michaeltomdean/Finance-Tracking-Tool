@@ -1,5 +1,7 @@
 from datetime import datetime
 from tkinter import Label, Button, Toplevel, StringVar, Entry, OptionMenu
+from tkinter.ttk import Treeview
+
 from PIL import Image, ImageTk
 from tkcalendar import Calendar
 
@@ -354,8 +356,22 @@ class RemoveRecordWindow(Toplevel):
         """
         super().__init__()
         self.title('Remove Record')
-        self.geometry('350x350')
+        self.geometry('1000x1000')
         self.resizable(height=False, width=False)
+
+        # Tkinter tree
+        tree = Treeview(self, columns='ID, name, category, date, amount, type', show='headings')
+        tree.pack()
+
+        # Get Spending Data
+        database = FinanceSQL()
+        database.connect()
+        data = database.get_all_monthly_spending()
+
+        for record in data:
+            tree.insert("", "end", values=record)
+
+
 
 
 class ViewMonthlySpendWindow(Toplevel):
