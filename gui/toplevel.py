@@ -105,9 +105,9 @@ class RemoveCategoryWindow(Toplevel):
         categories_option_menu = OptionMenu(self, self.categories_option, *categories_options)
         categories_option_menu.place(x=150, y=75)
 
-        ok_button = Button(self, text='Ok', command=self.delete_category, width=10)
+        ok_button = Button(self, text='Ok', command=self.delete_category, width=15)
         ok_button.place(x=115, y=100)
-        exit_button = Button(self, text='Exit', command=self.destroy, width=10)
+        exit_button = Button(self, text='Exit', command=self.destroy, width=15)
         exit_button.place(x=115, y=125)
 
     def delete_category(self):
