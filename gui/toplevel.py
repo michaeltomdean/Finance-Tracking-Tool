@@ -1,14 +1,12 @@
 from datetime import datetime
-from tkinter import Label, Button, Toplevel, StringVar, Entry, OptionMenu
-from tkinter.ttk import Treeview
-
+from tkinter import Toplevel, StringVar
+from tkinter.ttk import Treeview, Label, Button, Entry, Frame, OptionMenu
 from PIL import Image, ImageTk
 from tkcalendar import Calendar
-
 from data.sql import FinanceSQL
 from data.txt import Categories
-
 from misc.tools import console_output, convert_month_id_to_str, get_year, get_month_id, is_float, convert_us_date_to_uk
+from ttkthemes import ThemedTk
 
 
 class FinancialSummaryWindow(Toplevel):
@@ -23,6 +21,8 @@ class FinancialSummaryWindow(Toplevel):
         super().__init__()
         self.title('Financial Summary')
         self.geometry('500x500')
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
 
 class AddCategoryWindow(Toplevel):
@@ -39,33 +39,35 @@ class AddCategoryWindow(Toplevel):
         self.title('Add Category')
         self.geometry('350x250')
         self.resizable(height=False, width=False)
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
         # Title
-        title_label = Label(self, text='Add Categories', font=('Arial', 20))
+        title_label = Label(self.frame, text='Add Categories', font=('Arial', 20))
         title_label.place(x=100, y=10)
 
         # Images
         temp_image = Image.open(r"../assets/categories.png")
         temp_image = temp_image.resize((50, 50))
         self.categories_image = ImageTk.PhotoImage(temp_image)
-        category_image_label = Label(self, image=self.categories_image)
+        category_image_label = Label(self.frame, image=self.categories_image)
         category_image_label.place(x=10, y=10)
 
         # Labels
-        add_category_label = Label(self, text='Category Name', font=('Arial', 15))
+        add_category_label = Label(self.frame, text='Category Name', font=('Arial', 15))
         add_category_label.place(x=115, y=50)
 
         # Entry
         self.add_category_name = StringVar()
-        add_category_entry = Entry(self, textvariable=self.add_category_name)
+        add_category_entry = Entry(self.frame, textvariable=self.add_category_name)
         add_category_entry.place(x=75, y=75)
 
         # Bottom
-        add_category_button = Button(self, text='Add Category', command=self.add_category, width=15)
+        add_category_button = Button(self.frame, text='Add Category', command=self.add_category, width=16)
         add_category_button.place(x=115, y=125)
 
         # Exit Buttton
-        exit_button = Button(self, text='Exit', command=self.destroy, width=15)
+        exit_button = Button(self.frame, text='Exit', command=self.destroy, width=16)
         exit_button.place(x=115, y=175)
 
     def add_category(self):
@@ -87,27 +89,29 @@ class RemoveCategoryWindow(Toplevel):
         self.title('Remove Category')
         self.geometry('350x150')
         self.resizable(height=False, width=False)
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
-        title = Label(self, text='Remove Category', font=('Arial', 20))
+        title = Label(self.frame, text='Remove Category', font=('Arial', 20))
         title.place(x=90, y=10)
         temp_image = Image.open(r'../assets/categories.png')
         temp_image = temp_image.resize((50, 50))
         self.categories_image = ImageTk.PhotoImage(temp_image)
-        category_image_label = Label(self, image=self.categories_image)
+        category_image_label = Label(self.frame, image=self.categories_image)
         category_image_label.place(x=10, y=10)
 
-        categories_label = Label(self, text='Select a category to remove', font=('Arial', 15))
+        categories_label = Label(self.frame, text='Select a category to remove', font=('Arial', 15))
         categories_label.place(x=90, y=50)
 
         self.categories_option = StringVar()
         self.categories_obj = Categories()
         categories_options = self.categories_obj.get().split('\n')
-        categories_option_menu = OptionMenu(self, self.categories_option, *categories_options)
+        categories_option_menu = OptionMenu(self.frame, self.categories_option, *categories_options)
         categories_option_menu.place(x=150, y=75)
 
-        ok_button = Button(self, text='Ok', command=self.delete_category, width=15)
+        ok_button = Button(self, text='Ok', command=self.delete_category, width=16)
         ok_button.place(x=115, y=100)
-        exit_button = Button(self, text='Exit', command=self.destroy, width=15)
+        exit_button = Button(self, text='Exit', command=self.destroy, width=16)
         exit_button.place(x=115, y=125)
 
     def delete_category(self):
@@ -132,36 +136,39 @@ class MonthlyBudgetWindow(Toplevel):
         self.title('Monthly Budget Window')
         self.geometry('350x350')
         self.resizable(height=False, width=False)
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
         # Main Title
-        monthly_budget_label = Label(self, text='Monthly Budget', font=('Arial', 20))
+        monthly_budget_label = Label(self.frame, text='Monthly Budget', font=('Arial', 20))
         monthly_budget_label.pack()
 
         # Picture
         temp_image = Image.open(r"../assets/calendar-icon.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
-        monthly_image_label = Label(self, image=self.calendar_image)
+        monthly_image_label = Label(self.frame, image=self.calendar_image)
         monthly_image_label.place(x=10, y=10)
 
         # Labels
         current_month = convert_month_id_to_str(get_month_id())
-        monthly_label = Label(self, text=f"Current Month: {current_month}")
+        monthly_label = Label(self.frame, text=f"Current Month: {current_month}")
         monthly_label.pack()
 
         # Button
-        add_record_button = Button(self, text='Add Record', command=self.add_record, width=15)
+        add_record_button = Button(self.frame, text='Add Record', command=self.add_record, width=16)
         add_record_button.pack()
-        remove_record_button = Button(self, text='Remove Record', command=self.remove_record, width=15)
+        remove_record_button = Button(self.frame, text='Remove Record', command=self.remove_record, width=16)
         remove_record_button.pack()
-        update_record_button = Button(self, text='Update Record', command=self.update_record, width=15)
+        update_record_button = Button(self.frame, text='Update Record', command=self.update_record, width=16)
         update_record_button.pack()
-        view_monthly_spend_button = Button(self, text='View Monthly Spend', command=self.view_monthly_spend, width=15)
+        view_monthly_spend_button = Button(self.frame, text='View Monthly Spend', command=self.view_monthly_spend,
+                                           width=16)
         view_monthly_spend_button.pack()
-        view_category_spend_button = Button(self, text='View Category Spend', command=self.view_category_spend,
-                                            width=15)
+        view_category_spend_button = Button(self.frame, text='View Category Spend', command=self.view_category_spend,
+                                            width=16)
         view_category_spend_button.pack()
-        exit_button = Button(self, text='Exit', command=self.exit, width=15)
+        exit_button = Button(self.frame, text='Exit', command=self.exit, width=16)
         exit_button.pack()
 
     @staticmethod
@@ -231,45 +238,47 @@ class AddRecordWindow(Toplevel):
         self.title('Add Record')
         self.geometry('500x500')
         self.resizable(height=False, width=False)
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
         self.date_window = None
 
         # Title
-        title_label = Label(self, text='Add Record', font=('Arial', 20))
+        title_label = Label(self.frame, text='Add Record', font=('Arial', 20))
         title_label.pack()
 
         # Images
         temp_image = Image.open(r"../assets/finance.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
-        yearly_image_label = Label(self, image=self.calendar_image)
+        yearly_image_label = Label(self.frame, image=self.calendar_image)
         yearly_image_label.place(x=10, y=10)
 
         # Labels
-        transaction_name_label = Label(self, text='Transaction Name', font=('Arial', 15))
+        transaction_name_label = Label(self.frame, text='Transaction Name', font=('Arial', 15))
         transaction_name_label.place(x=185, y=50)
 
-        transaction_amount_label = Label(self, text='Transaction Amount', font=('Arial', 15))
+        transaction_amount_label = Label(self.frame, text='Transaction Amount', font=('Arial', 15))
         transaction_amount_label.place(x=185, y=100)
 
-        transaction_date_label = Label(self, text='Transaction Date', font=('Arial', 15))
+        transaction_date_label = Label(self.frame, text='Transaction Date', font=('Arial', 15))
         transaction_date_label.place(x=185, y=150)
 
-        categories_label = Label(self, text='Transaction Category', font=('Arial', 15))
+        categories_label = Label(self.frame, text='Transaction Category', font=('Arial', 15))
         categories_label.place(x=185, y=350)
 
-        need_want_save_label = Label(self, text='Need? Want? Save?', font=('Arial', 15))
+        need_want_save_label = Label(self.frame, text='Need? Want? Save?', font=('Arial', 15))
         need_want_save_label.place(x=185, y=400)
 
         # Entry
         self.transaction_name = StringVar()
-        transaction_name_entry = Entry(self, textvariable=self.transaction_name)
+        transaction_name_entry = Entry(self.frame, textvariable=self.transaction_name)
         transaction_name_entry.place(x=150, y=75)
 
         self.transaction_amount = StringVar()
-        transaction_amount_entry = Entry(self, textvariable=self.transaction_amount)
+        transaction_amount_entry = Entry(self.frame, textvariable=self.transaction_amount)
         transaction_amount_entry.place(x=150, y=125)
 
-        self.date_entry = Calendar(self, selectmode='day', year=datetime.now().year,
+        self.date_entry = Calendar(self.frame, selectmode='day', year=datetime.now().year,
                                    month=datetime.now().month, day=datetime.now().day)
         self.date_entry.place(x=125, y=175)
 
@@ -285,10 +294,10 @@ class AddRecordWindow(Toplevel):
         need_want_save_option_menu = OptionMenu(self, self.need_want_save_option, *need_want_save_options)
         need_want_save_option_menu.place(x=225, y=425)
 
-        add_record_button = Button(self, text='Add Record', command=self.add_record, width=15)
+        add_record_button = Button(self.frame, text='Add Record', command=self.add_record, width=16)
         add_record_button.place(x=175, y=450)
 
-        exit_button = Button(self, text='Exit', command=self.destroy, width=15)
+        exit_button = Button(self.frame, text='Exit', command=self.destroy, width=16)
         exit_button.place(x=175, y=475)
 
     def add_record(self):
@@ -343,6 +352,8 @@ class UpdateRecordWindow(Toplevel):
         super().__init__()
         self.title('Update Record')
         self.geometry('350x350')
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
 
 class RemoveRecordWindow(Toplevel):
@@ -358,9 +369,11 @@ class RemoveRecordWindow(Toplevel):
         self.title('Remove Record')
         self.geometry('1000x350')
         self.resizable(height=False, width=False)
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
         # Title
-        title = Label(self, text='Remove Record', font=('Arial', 20))
+        title = Label(self.frame, text='Remove Record', font=('Arial', 20))
         title.pack()
 
         # Database
@@ -368,7 +381,7 @@ class RemoveRecordWindow(Toplevel):
         self.database.connect()
 
         # Tkinter tree
-        tree = Treeview(self, columns='ID, name, category, date, amount, type', show='headings')
+        tree = Treeview(self.frame, columns='ID, name, category, date, amount, type', show='headings')
         tree.pack()
 
         # Get Spending Data
@@ -379,15 +392,15 @@ class RemoveRecordWindow(Toplevel):
         for record in data:
             tree.insert("", "end", values=record)
 
-        input_record_id_label = Label(self, text='Input Record ID', font=('Arial', 15))
+        input_record_id_label = Label(self.frame, text='Input Record ID', font=('Arial', 15))
         input_record_id_label.pack()
 
         self.input_record_id = StringVar()
-        input_record_id_entry = Entry(self, textvariable=self.input_record_id)
+        input_record_id_entry = Entry(self.frame, textvariable=self.input_record_id)
         input_record_id_entry.pack()
 
-        ok_button = Button(self, command=self.ok)
-        exit_button = Button(self, command=self.destroy)
+        ok_button = Button(self.frame, command=self.ok)
+        exit_button = Button(self.frame, command=self.destroy)
 
     def ok(self):
         if self.input_record_id.get().isdigit() and self.database.check_record_id(self.input_record_id.get()):
@@ -410,18 +423,22 @@ class ViewMonthlySpendWindow(Toplevel):
         self.title('View Monthly Spend')
         self.geometry('500x500')
         self.resizable(height=False, width=False)
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
+
+        # Database Setup
         database = FinanceSQL()
         database.connect()
 
         # Title
-        title_label = Label(self, text='View Monthly Spend', font=('Arial', 20))
+        title_label = Label(self.frame, text='View Monthly Spend', font=('Arial', 20))
         title_label.place(x=165, y=10)
 
         # Images
         temp_image = Image.open(r"../assets/finance.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
-        yearly_image_label = Label(self, image=self.calendar_image)
+        yearly_image_label = Label(self.frame, image=self.calendar_image)
         yearly_image_label.place(x=10, y=10)
 
         # Labels
@@ -429,41 +446,41 @@ class ViewMonthlySpendWindow(Toplevel):
         if current_monthly_spend is None:
             current_monthly_spend = 0
         current_monthly_spend = f"£{current_monthly_spend}"
-        current_monthly_spend_label = Label(self, text='Current Monthly Spend:', font=('Arial', 15))
+        current_monthly_spend_label = Label(self.frame, text='Current Monthly Spend:', font=('Arial', 15))
         current_monthly_spend_label.place(x=25, y=75)
-        current_monthly_spend_total_label = Label(self, text=current_monthly_spend, font=('Arial', 15))
+        current_monthly_spend_total_label = Label(self.frame, text=current_monthly_spend, font=('Arial', 15))
         current_monthly_spend_total_label.place(x=200, y=75)
 
         # Get top monthly category and top category spend data
         top_monthly_category, top_monthly_category_spend = database.get_top_monthly_spending_category()
 
-        top_monthly_category_label = Label(self, text='Current Top Category:', font=('Arial', 15))
+        top_monthly_category_label = Label(self.frame, text='Current Top Category:', font=('Arial', 15))
         top_monthly_category_label.place(x=25, y=100)
-        top_monthly_category_variable_label = Label(self, text=top_monthly_category, font=('Arial', 15))
+        top_monthly_category_variable_label = Label(self.frame, text=top_monthly_category, font=('Arial', 15))
         top_monthly_category_variable_label.place(x=200, y=100)
 
-        top_monthly_category_spend_label = Label(self, text='Top Category Spend:', font=('Arial', 15))
+        top_monthly_category_spend_label = Label(self.frame, text='Top Category Spend:', font=('Arial', 15))
         top_monthly_category_spend_label.place(x=25, y=125)
-        top_monthly_category_spend_variable_label = Label(self, text=top_monthly_category_spend, font=('Arial', 15))
+        top_monthly_category_spend_variable_label = Label(self.frame, text=top_monthly_category_spend, font=('Arial', 15))
         top_monthly_category_spend_variable_label.place(x=200, y=125)
 
         (last_monthly_purchase, last_monthly_purchase_amount,
          last_monthly_purchase_date) = database.get_last_monthly_purchase()
         last_monthly_purchase_date = convert_us_date_to_uk(last_monthly_purchase_date)
 
-        last_monthly_purchase_label = Label(self, text='Last Purchase:', font=('Arial', 15))
+        last_monthly_purchase_label = Label(self.frame, text='Last Purchase:', font=('Arial', 15))
         last_monthly_purchase_label.place(x=25, y=175)
-        last_monthly_purchase_variable_label = Label(self, text=last_monthly_purchase, font=('Arial', 15))
+        last_monthly_purchase_variable_label = Label(self.frame, text=last_monthly_purchase, font=('Arial', 15))
         last_monthly_purchase_variable_label.place(x=200, y=175)
 
         last_monthly_purchase_amount_label = Label(self, text='Last Purchase Amount:', font=('Arial', 15))
         last_monthly_purchase_amount_label.place(x=25, y=200)
-        last_monthly_purchase_amount_variable_label = Label(self, text=last_monthly_purchase_amount, font=('Arial', 15))
+        last_monthly_purchase_amount_variable_label = Label(self.frame, text=last_monthly_purchase_amount, font=('Arial', 15))
         last_monthly_purchase_amount_variable_label.place(x=200, y=200)
 
         last_monthly_purchase_date_label = Label(self, text='Last Purchase Date:', font=('Arial', 15))
         last_monthly_purchase_date_label.place(x=25, y=225)
-        last_monthly_purchase_date_variable_label = Label(self, text=last_monthly_purchase_date, font=('Arial', 15))
+        last_monthly_purchase_date_variable_label = Label(self.frame, text=last_monthly_purchase_date, font=('Arial', 15))
         last_monthly_purchase_date_variable_label.place(x=200, y=225)
         # Plots
         # Entries
@@ -477,6 +494,8 @@ class ViewCategorySpendWindow(Toplevel):
     def __init__(self):
         super().__init__()
         self.title('View Category Spend')
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
 
 class YearlyBudgetWindow(Toplevel):
@@ -493,19 +512,21 @@ class YearlyBudgetWindow(Toplevel):
         self.title('Yearly Budget Window')
         self.geometry('350x350')
         self.resizable(height=True, width=False)
+        self.frame = Frame(self)
+        self.frame.pack(fill='both', expand=True)
 
         # Main Title
-        yearly_budget_label = Label(self, text='Yearly Budget', font=('Arial', 20))
+        yearly_budget_label = Label(self.frame, text='Yearly Budget', font=('Arial', 20))
         yearly_budget_label.pack()
 
         # Picture
         temp_image = Image.open(r"../assets/calendar-icon.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
-        yearly_image_label = Label(self, image=self.calendar_image)
+        yearly_image_label = Label(self.frame, image=self.calendar_image)
         yearly_image_label.place(x=10, y=10)
 
         # Label
         current_year = get_year()
-        yearly_label = Label(self, text=f"Current Year: {current_year}")
+        yearly_label = Label(self.frame, text=f"Current Year: {current_year}")
         yearly_label.pack()
