@@ -136,8 +136,17 @@ class FinanceSQL:
         # Find maximum key and value
         values = list(category_spend.values())
         keys = list(category_spend.keys())
-        max_value = max(category_spend.values())
-        max_key = keys[values.index(max(values))]
+
+        # Have to do my own max function as max does not support none types (annoying). None types can occur when
+        # categories have no records
+        max_value = float('-inf')
+        for value in values:
+            if None not in value:
+                for unpacked_value in value:  # Very janky but for value in values still returns tuple. Needs unpacking
+                    if unpacked_value > max_value:
+                        max_value = value
+
+        max_key = keys[values.index(max_value)]
 
         return max_key, max_value[0]
 

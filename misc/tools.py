@@ -40,7 +40,7 @@ def convert_month_id_to_str(id: int):
 
 
 def get_user_data_path():
-    return r"/Users/michael/Library/Application Support/finance-tracking/userdata"
+    return r"C:\Users\Michael\Scripts\Finance\User_Data"
 
 
 def get_monthly_image_path():
