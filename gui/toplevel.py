@@ -47,7 +47,7 @@ class AddCategoryWindow(Toplevel):
         title_label.place(x=100, y=10)
 
         # Images
-        temp_image = Image.open(r"../assets/categories.png")
+        temp_image = Image.open(r"..\assets\categories.png")
         temp_image = temp_image.resize((50, 50))
         self.categories_image = ImageTk.PhotoImage(temp_image)
         category_image_label = Label(self.frame, image=self.categories_image)
@@ -94,7 +94,7 @@ class RemoveCategoryWindow(Toplevel):
 
         title = Label(self.frame, text='Remove Category', font=('Arial', 20))
         title.place(x=90, y=10)
-        temp_image = Image.open(r'../assets/categories.png')
+        temp_image = Image.open(r'..\assets\categories.png')
         temp_image = temp_image.resize((50, 50))
         self.categories_image = ImageTk.PhotoImage(temp_image)
         category_image_label = Label(self.frame, image=self.categories_image)
@@ -144,7 +144,7 @@ class MonthlyBudgetWindow(Toplevel):
         monthly_budget_label.pack()
 
         # Picture
-        temp_image = Image.open(r"../assets/calendar-icon.png")
+        temp_image = Image.open(r"..\assets\calendar-icon.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
         monthly_image_label = Label(self.frame, image=self.calendar_image)
@@ -247,7 +247,7 @@ class AddRecordWindow(Toplevel):
         title_label.pack()
 
         # Images
-        temp_image = Image.open(r"../assets/finance.png")
+        temp_image = Image.open(r"..\assets\finance.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
         yearly_image_label = Label(self.frame, image=self.calendar_image)
@@ -435,7 +435,7 @@ class ViewMonthlySpendWindow(Toplevel):
         title_label.place(x=165, y=10)
 
         # Images
-        temp_image = Image.open(r"../assets/finance.png")
+        temp_image = Image.open(r"..\assets\finance.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
         yearly_image_label = Label(self.frame, image=self.calendar_image)
@@ -520,7 +520,7 @@ class YearlyBudgetWindow(Toplevel):
         yearly_budget_label.pack()
 
         # Picture
-        temp_image = Image.open(r"../assets/calendar-icon.png")
+        temp_image = Image.open(r"..\assets\calendar-icon.png")
         temp_image = temp_image.resize((50, 50))
         self.calendar_image = ImageTk.PhotoImage(temp_image)
         yearly_image_label = Label(self.frame, image=self.calendar_image)

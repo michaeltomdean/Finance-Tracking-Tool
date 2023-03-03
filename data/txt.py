@@ -3,7 +3,7 @@ from misc.tools import get_user_data_path
 
 class Categories:
     def __init__(self):
-        self.path = fr"{get_user_data_path()}/categories.txt"
+        self.path = fr"{get_user_data_path()}\categories.txt"
 
     def get(self):
         """
