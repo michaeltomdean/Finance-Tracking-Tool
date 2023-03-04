@@ -285,10 +285,15 @@ class AddRecordWindow(Toplevel):
         # Options menu
         self.categories_option = StringVar()
         categories = Categories()
-        categories_options = categories.get().split('\n')
-        categories_option_menu = OptionMenu(self, self.categories_option, *categories_options)
+        category_options = categories.get().split('\n')
+        self.categories_option.set(category_options[0])
+        if '' in category_options:
+            category_options.remove('')
+        print(category_options)
+        categories_option_menu = OptionMenu(self, self.categories_option, category_options[0], *category_options)
         categories_option_menu.place(x=225, y=375)
 
+        # Need want options
         self.need_want_save_option = StringVar()
         need_want_save_options = ['Need', 'Want', 'Save']
         need_want_save_option_menu = OptionMenu(self, self.need_want_save_option, *need_want_save_options)
