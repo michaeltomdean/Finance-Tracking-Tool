@@ -156,19 +156,19 @@ class MonthlyBudgetWindow(Toplevel):
         monthly_label.pack()
 
         # Button
-        add_record_button = Button(self.frame, text='Add Record', command=self.add_record, width=16)
+        add_record_button = Button(self.frame, text='Add Record', command=self.add_record, width=20)
         add_record_button.pack()
-        remove_record_button = Button(self.frame, text='Remove Record', command=self.remove_record, width=16)
+        remove_record_button = Button(self.frame, text='Remove Record', command=self.remove_record, width=20)
         remove_record_button.pack()
-        update_record_button = Button(self.frame, text='Update Record', command=self.update_record, width=16)
+        update_record_button = Button(self.frame, text='Update Record', command=self.update_record, width=20)
         update_record_button.pack()
         view_monthly_spend_button = Button(self.frame, text='View Monthly Spend', command=self.view_monthly_spend,
-                                           width=16)
+                                           width=20)
         view_monthly_spend_button.pack()
         view_category_spend_button = Button(self.frame, text='View Category Spend', command=self.view_category_spend,
-                                            width=16)
+                                            width=20)
         view_category_spend_button.pack()
-        exit_button = Button(self.frame, text='Exit', command=self.exit, width=16)
+        exit_button = Button(self.frame, text='Exit', command=self.exit, width=20)
         exit_button.pack()
 
     @staticmethod
