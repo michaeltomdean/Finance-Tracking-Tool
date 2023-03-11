@@ -1,3 +1,4 @@
+from calendar import monthrange
 from datetime import datetime
 
 
@@ -83,4 +84,12 @@ def convert_us_date_to_uk(date: str):
     return f"{day}-{month}-{year}"
 
 
-
+def calculate_last_first_month_dates():
+    """
+    Calculate the first and last day of the month
+    :return:
+    """
+    _, last_day = monthrange(datetime.now().year, datetime.now().month)  # Calculates days in month.
+    first_month_date = f"{datetime.now().year}-{datetime.now().month:02d}-01"  # Format numbers eg 1 into 01
+    last_month_date = f"{datetime.now().year}-{datetime.now().month:02d}-{last_day:02d}"
+    return first_month_date, last_month_date
