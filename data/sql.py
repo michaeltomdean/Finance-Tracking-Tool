@@ -2,15 +2,14 @@ import sqlite3
 from datetime import datetime
 
 from data.txt import Categories
-from misc.tools import get_user_data_path
-from calendar import monthrange
+from misc.tools import get_user_data_path, calculate_last_first_month_dates
 
 
 class FinanceSQL:
     def __init__(self):
         self.path = fr"{get_user_data_path()}/finance.db"
         self.connection, self.cursor = self.connect()
-        self.first_month_date, self.last_month_date = self.calculate_last_first_month_dates()
+        self.first_month_date, self.last_month_date = calculate_last_first_month_dates()
         self.current_date = f"{datetime.now().year}-{datetime.now().month:02d}-{datetime.now().day:02d}"
 
     def connect(self):
@@ -18,12 +17,15 @@ class FinanceSQL:
         cursor = connection.cursor()
         return connection, cursor
 
-    @staticmethod
-    def calculate_last_first_month_dates():
-        _, last_day = monthrange(datetime.now().year, datetime.now().month)  # Calculates days in month.
-        first_month_date = f"{datetime.now().year}-{datetime.now().month:02d}-01"  # Format numbers eg 1 into 01
-        last_month_date = f"{datetime.now().year}-{datetime.now().month:02d}-{last_day:02d}"
-        return first_month_date, last_month_date
+    def read_in_monzo_spending(self, csv_file):
+        """
+        Takes in monzo data and converts it to a pandas dataframe and imports all of this month's data asking you if it
+        is a need, want or save transaction. All the data is then committed to the SQL database.
+
+        :param csv_file: path to a CSV file containing the monzo spread sheet.
+        :return:
+        """
+        pass
 
     def get_all_spending(self):
         self.cursor.execute("""
